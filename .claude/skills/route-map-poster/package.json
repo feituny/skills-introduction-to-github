@@ -1,0 +1,10 @@
+{
+  "name": "route-map-poster",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generate illustrated itinerary/route-map posters from a JSON spec (real map base + hand-drawn attraction icons).",
+  "bin": { "route-map-poster": "generate.js" },
+  "dependencies": {
+    "sharp": "^0.33.0"
+  }
+}
