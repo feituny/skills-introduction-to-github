@@ -1,0 +1,24 @@
+{
+  "title": "布里斯班一日游路线",
+  "subtitle": "真实地图 + 景点简笔画 · South Bank 南岸 + City 北岸",
+  "basemap": "light",
+  "routeColor": "#ff8a1e",
+  "footer": "底图 © OpenStreetMap / CARTO · 步行 + 免费 CityHopper 渡轮 · Enjoy Brisbane!",
+  "groups": [
+    { "id": "S", "label": "South Bank 南岸", "color": "#e8553f" },
+    { "id": "N", "label": "City 北岸", "color": "#2f6df0" }
+  ],
+  "route": [1, 2, 3, 5, 4, 7, 6, 8, 9, 10],
+  "stops": [
+    { "n": 1,  "group": "S", "lat": -27.4760, "lng": 153.0233, "icon": "beach",  "name": "南岸公园",       "en": "South Bank",     "desc": "人造沙滩 Streets Beach" },
+    { "n": 2,  "group": "S", "lat": -27.4773, "lng": 153.0223, "icon": "pagoda", "name": "尼泊尔和平塔",   "en": "Nepal Pagoda",   "desc": "世博遗留地标" },
+    { "n": 3,  "group": "S", "lat": -27.4750, "lng": 153.0214, "icon": "wheel",  "name": "布里斯班摩天轮", "en": "The Wheel",      "desc": "俯瞰全城夜景" },
+    { "n": 4,  "group": "S", "lat": -27.4707, "lng": 153.0177, "icon": "art",    "name": "昆士兰美术馆",   "en": "QAGOMA",         "desc": "免费当代艺术" },
+    { "n": 5,  "group": "S", "lat": -27.4703, "lng": 153.0191, "icon": "museum", "name": "博物馆·图书馆",  "en": "Museum",         "desc": "免费 · 亲子友好" },
+    { "n": 6,  "group": "N", "lat": -27.4700, "lng": 153.0254, "icon": "bag",    "name": "皇后街商业街",   "en": "Queen St Mall",  "desc": "步行街购物" },
+    { "n": 7,  "group": "N", "lat": -27.4690, "lng": 153.0205, "icon": "star",   "name": "皇后码头 Star",  "en": "Queen's Wharf",  "desc": "赌场综合体·餐饮" },
+    { "n": 8,  "group": "N", "lat": -27.4748, "lng": 153.0298, "icon": "tree",   "name": "城市植物园",     "en": "Botanic Gardens","desc": "河畔绿地散步" },
+    { "n": 9,  "group": "N", "lat": -27.4626, "lng": 153.0320, "icon": "beer",   "name": "Howard Smith",  "en": "Wharves",        "desc": "桥下精酿·晚餐" },
+    { "n": 10, "group": "N", "lat": -27.4636, "lng": 153.0350, "icon": "bridge", "name": "故事桥",        "en": "Story Bridge",   "desc": "攀桥 · 夜景地标" }
+  ]
+}

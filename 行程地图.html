@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>布里斯班 · 黄金海岸 三天行程地图</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    #map { width: 100%; height: 100vh; }
+    .title-box {
+      position: absolute; top: 12px; left: 50px; z-index: 1000;
+      background: rgba(255,255,255,0.92); padding: 8px 14px; border-radius: 8px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.3); font-size: 15px; font-weight: 600;
+    }
+    .legend {
+      background: rgba(255,255,255,0.94); padding: 10px 14px; border-radius: 8px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.3); font-size: 13px; line-height: 1.8;
+    }
+    .legend .dot {
+      display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+      margin-right: 6px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.3);
+    }
+    .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="title-box">🗺️ 布里斯班 · 黄金海岸 三天行程</div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map');
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // 按天分色
+    const colors = { 1: '#2563eb', 2: '#ea580c', 3: '#16a34a' };
+
+    function marker(lat, lng, day, name, desc) {
+      return {
+        lat, lng, day, name, desc,
+        latlng: [lat, lng]
+      };
+    }
+
+    const points = [
+      // Day 1 — 布里斯班市区
+      marker(-27.4748, 153.0235, 1, '南岸公园 South Bank Parklands', '人造沙滩、尼泊尔和平塔、河畔步道'),
+      marker(-27.4760, 153.0220, 1, '布里斯班摩天轮 Wheel of Brisbane', '俯瞰全城'),
+      marker(-27.4705, 153.0177, 1, '昆士兰文化中心 QAGOMA', '美术馆、博物馆、州立图书馆（多免费）'),
+      marker(-27.4633, 153.0353, 1, '故事桥 Story Bridge', '地标钢桥'),
+      marker(-27.4795, 153.0345, 1, '袋鼠角 Kangaroo Point', '悬崖看日落'),
+      marker(-27.4625, 153.0320, 1, 'Howard Smith Wharves', '河边餐厅晚餐'),
+
+      // Day 2 — 黄金海岸海滩 + 乐园
+      marker(-28.0027, 153.4309, 2, '冲浪者天堂 Surfers Paradise', '金色沙滩、海滨大道'),
+      marker(-28.0046, 153.4297, 2, 'SkyPoint 观景台 (Q1)', '南半球最高住宅观景台'),
+      marker(-27.9183, 153.3133, 2, '华纳电影世界 Movie World', '主题乐园'),
+      marker(-27.9577, 153.4248, 2, '海洋世界 Sea World', '主题乐园'),
+      marker(-27.8639, 153.3150, 2, '梦幻世界 Dreamworld', '主题乐园'),
+      marker(-28.0290, 153.4310, 2, 'Broadbeach', '住宿与餐饮区'),
+
+      // Day 3 — 腹地雨林 + 返程
+      marker(-28.2333, 153.2700, 3, '春溪国家公园 Springbrook', '雨林徒步、瀑布'),
+      marker(-28.2280, 153.1360, 3, '雷明顿国家公园 Lamington', '雨林徒步'),
+      marker(-28.1361, 153.4894, 3, '可伦宾野生动物保护区', '考拉、袋鼠'),
+      marker(-27.9667, 153.2000, 3, 'Tamborine Mountain', '酒庄、玻璃栈道、艺术小镇'),
+      marker(-27.3842, 153.1175, 3, '布里斯班机场 Brisbane Airport', '返程'),
+    ];
+
+    const allLatLngs = [];
+    const dayLines = { 1: [], 2: [], 3: [] };
+
+    points.forEach(p => {
+      const m = L.circleMarker(p.latlng, {
+        radius: 8,
+        fillColor: colors[p.day],
+        color: '#fff',
+        weight: 2,
+        fillOpacity: 0.9
+      }).addTo(map);
+      m.bindPopup('<b>Day ' + p.day + ' · ' + p.name + '</b><br>' + p.desc);
+      m.bindTooltip(p.name, { direction: 'top', offset: [0, -6] });
+      allLatLngs.push(p.latlng);
+      dayLines[p.day].push(p.latlng);
+    });
+
+    // 每天的路线连线（虚线）
+    Object.keys(dayLines).forEach(day => {
+      L.polyline(dayLines[day], {
+        color: colors[day], weight: 2, opacity: 0.5, dashArray: '6,8'
+      }).addTo(map);
+    });
+
+    map.fitBounds(L.latLngBounds(allLatLngs).pad(0.1));
+
+    // 图例
+    const legend = L.control({ position: 'bottomright' });
+    legend.onAdd = function () {
+      const div = L.DomUtil.create('div', 'legend');
+      div.innerHTML =
+        '<div><span class="dot" style="background:' + colors[1] + '"></span>Day 1 · 布里斯班市区</div>' +
+        '<div><span class="dot" style="background:' + colors[2] + '"></span>Day 2 · 黄金海岸海滩/乐园</div>' +
+        '<div><span class="dot" style="background:' + colors[3] + '"></span>Day 3 · 腹地雨林 + 返程</div>';
+      return div;
+    };
+    legend.addTo(map);
+  </script>
+</body>
+</html>
